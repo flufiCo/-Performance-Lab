@@ -1,21 +1,46 @@
-def min_moves_to_equal(nums):
-    total_moves = 0
-    # Находим целевое число, к которому стремимся
-    target = sum(nums) // len(nums)
+import sys
 
-    for num in nums:
-        total_moves += abs(num - target)  # Считаем общее количество ходов
+def min_moves_to_equal_elements(nums):
+    # Сортируем массив
+    nums.sort()
+    
+    # Находим медиану
+    median = nums[len(nums) // 2]
+    
+    # Считаем количество шагов для приведения всех элементов к медиане
+    moves = sum(abs(num - median) for num in nums)
+    
+    return moves
 
-    return total_moves
+def read_nums_from_file(filename):
+    try:
+        with open(filename, 'r') as file:
+            # Читаем и преобразуем все строки в числа
+            nums = [int(line.strip()) for line in file.readlines()]
+            print(f"Прочитанные числа: {nums}")
+        return nums
+    except Exception as e:
+        print(f"Ошибка при чтении файла: {e}")
+        return []
 
+def main():
+    if len(sys.argv) != 2:
+        print("Использование: python script.py <input_file>")
+        return
+    
+    # Читаем массив из файла
+    filename = sys.argv[1]
+    nums = read_nums_from_file(filename)
+    
+    if not nums:
+        print("Ошибка: не удалось прочитать числа из файла.")
+        return
+    
+    # Получаем минимальное количество ходов
+    result = min_moves_to_equal_elements(nums)
+    
+    # Выводим результат
+    print(f"Минимальное количество ходов: {result}")
 
 if __name__ == "__main__":
-    try:
-        nums = [int(num)
-                for num in input("Введите числа через пробел: ").split()]
-    except ValueError:
-        print("Неверный формат ввода. Введите целые числа через пробел.")
-        exit(1)
-
-    result = min_moves_to_equal(nums)
-    print("Минимальное количество ходов:", result)
+    main()
