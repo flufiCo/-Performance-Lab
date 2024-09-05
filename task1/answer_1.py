@@ -21,4 +21,3 @@ if __name__ == "__main__":
         m = int(sys.argv[2])
         result = circular_path(n, m)
         print(result)
-
